@@ -24,17 +24,17 @@ npm start
 
 ## 2. โครงสร้างโปรเจกต์ (Folder Structure) และเหตุผลทางสถาปัตยกรรม
 
-โปรเจกต์นี้ใช้สถาปัตยกรรม **Single File + Comment Section** โดยรวมซอร์สโค้ดทั้งหมดไว้ในไฟล์เดียวคือ `index.ts` เพื่อความสะดวกในการส่งตรวจและรันด้วยคำสั่งเดียว แต่ยังคงแยกส่วน Pure Core Logic และ Impure Shell อย่างชัดเจนด้วย Comment Section ภายในไฟล์:
+โปรเจกต์นี้ใช้สถาปัตยกรรม **Single File + Comment Section** โดยรวมซอร์สโค้ดทั้งหมดไว้ในไฟล์เดียวคือ `namtao.ts` เพื่อความสะดวกในการส่งตรวจและรันด้วยคำสั่งเดียว แต่ยังคงแยกส่วน Pure Core Logic และ Impure Shell อย่างชัดเจนด้วย Comment Section ภายในไฟล์:
 
 ```text
 namtao/
-├── index.ts              # ซอร์สโค้ดทั้งหมด (Types, Pure Core, Impure Effects, CLI Loop, Bootstrap)
+├── namtao.ts             # ซอร์สโค้ดทั้งหมด (Types, Pure Core, Impure Effects, CLI Loop, Bootstrap)
 ├── package.json          # กำหนดรายละเอียด dependencies และสคริปต์รัน
 ├── tsconfig.json         # ตั้งค่า Compiler Options ของ TypeScript
 └── game.log              # ไฟล์บันทึกประวัติการเล่น (สร้างขึ้นหลังเล่นเกม)
 ```
 
-### โครงสร้างภายในไฟล์ `index.ts` (แบ่งตาม Comment Section)
+### โครงสร้างภายในไฟล์ `namtao.ts` (แบ่งตาม Comment Section)
 ```text
 // Section 0: TYPES & DOMAIN MODELS         — ประเภทข้อมูลทั้งหมด (GameSymbol, DiceResult, Bet, ...)
 // Section 1: PURE CORE LOGIC                — pipe/compose, กติกาเกม, ไปป์ไลน์, parseBetInput
@@ -82,7 +82,7 @@ export type StreakState = {
 ```
 
 ### 3.3 Function Composition (`pipe` / `compose`)
-เราได้เขียนฟังก์ชันจัดเรียงไปป์ไลน์แบบกำหนดเองขึ้นมาใน Section 1 ของ [`index.ts`](file:///d:/work/Codex/namtao/index.ts) เพื่อร้อยเรียงข้อมูลแบบเป็นลำดับ:
+เราได้เขียนฟังก์ชันจัดเรียงไปป์ไลน์แบบกำหนดเองขึ้นมาใน Section 1 ของ [`namtao.ts`](file:///d:/work/Codex/namtao/namtao.ts) เพื่อร้อยเรียงข้อมูลแบบเป็นลำดับ:
 ```typescript
 // PURE
 export function pipe(value: any, ...fns: Function[]): any {
@@ -107,7 +107,7 @@ export function runRoundPipeline(input: RoundInput): RoundResult {
 ```
 
 ### 3.4 Dependency Injection ของ Side Effects
-แทนที่จะเรียกใช้ `Math.random()` ภายใน Core Logic โดยตรง เราได้แยกมันไว้ใน Section 2 (Impure Effects) ของ `index.ts` แล้วนำผลลัพธ์ที่ได้ **ฉีด (Inject)** เข้าสู่ไปป์ไลน์หลักผ่าน Arguments แทน:
+แทนที่จะเรียกใช้ `Math.random()` ภายใน Core Logic โดยตรง เราได้แยกมันไว้ใน Section 2 (Impure Effects) ของ `namtao.ts` แล้วนำผลลัพธ์ที่ได้ **ฉีด (Inject)** เข้าสู่ไปป์ไลน์หลักผ่าน Arguments แทน:
 ```typescript
 // ใน CLI loop (Impure Shell)
 const dice = rollDice(); // เรียกฟังก์ชันสุ่ม (Impure)
@@ -163,7 +163,7 @@ const result = runRoundPipeline({
 * **สัดส่วน Pure Functions**: มีปริมาณฟังก์ชัน Pure สูงถึง **74.07%** (ผ่านเกณฑ์ขั้นต่ำ >70% ที่กำหนด) โดยคำนวณจากสัดส่วนดังนี้:
   * จำนวนฟังก์ชัน PURE: 20 ฟังก์ชัน
   * จำนวนฟังก์ชัน IMPURE: 7 ฟังก์ชัน
-  * รวมฟังก์ชันทั้งหมดในไฟล์ `index.ts`: 27 ฟังก์ชัน (ไม่นับรวมฟังก์ชันช่วยเหลือภายใน)
+  * รวมฟังก์ชันทั้งหมดในไฟล์ `namtao.ts`: 27 ฟังก์ชัน (ไม่นับรวมฟังก์ชันช่วยเหลือภายใน)
 
 ---
 

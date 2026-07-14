@@ -2,9 +2,9 @@
   "name": "namtao-poo-pla",
   "version": "1.0.0",
   "description": "Console-Based Namtao Poo Pla game in TypeScript using Functional Programming principles",
-  "main": "dist/index.js",
+  "main": "dist/namtao.js",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "ts-node namtao.ts",
     "build": "tsc"
   },
   "keywords": [],
